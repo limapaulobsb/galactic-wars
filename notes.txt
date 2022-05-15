@@ -1,0 +1,82 @@
+0 Fighter
+1 Corvette
+2 Frigate
+3 Destroyer
+4 Cruiser
+5 Mothership
+
+0 {
+	agility: 75~89
+	damageOutput: 4~10
+	fuselage: 4~10
+	empResistance: 0~4
+	metalium:
+	carbonum:
+	plutonium:
+}
+
+1 {
+	agility: 60~74
+	damageOutput: 10~40
+	fuselage: 10~40
+	empResistance: 5~9
+}
+
+2 {
+	agility: 45~59
+	damageOutput: 40~100
+	fuselage: 40~100
+	empResistance: 10~14
+}
+
+3 {
+	agility: 30~44
+	damageOutput: 100~200
+	fuselage: 100~200
+	empResistance: 15~19
+}
+
+4 {
+	agility: 15~29
+	damageOutput: 200~400
+	fuselage: 200~400
+	empResistance: 20~24
+}
+
+5 {
+	agility: 0~14
+	damageOutput: 400~800
+	fuselage: 400~800
+	empResistance: 25~29
+}
+
+
+=> Human
+
+Artemis
+Perseus
+Hera
+Demeter
+Vulcan
+Ares
+Thanatos
+Neptune
+Hermes
+Apollo
+Hercules
+Zeus
+
+=> Daharan
+
+Osiris
+Isis
+Horus
+Set
+Geb
+Bastet
+Nut
+Sekhmet
+Anubis
+Thoth
+Nephthys
+Amun-Ra

@@ -1,0 +1,28 @@
+{
+  "name": "galactic-wars",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/limapaulobsb/galactic-wars.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/limapaulobsb/galactic-wars/issues"
+  },
+  "homepage": "https://github.com/limapaulobsb/galactic-wars#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.23.0",
+    "@typescript-eslint/parser": "^5.23.0",
+    "eslint": "^8.15.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.6.4"
+  }
+}
