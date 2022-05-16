@@ -1,4 +1,4 @@
-enum Class {
+enum Rank {
   'Fighter',
   'Corvette',
   'Frigate',
@@ -7,30 +7,46 @@ enum Class {
   'Mothership',
 }
 
+type BalanceStats = {
+  name: string,
+  rank: Rank,
+  initiative: number,
+  attack: number,
+  defense: number,
+  combatRatio: number,
+  resourceCost: number,
+  powerIndex: number,
+  costBenefitRatio: number,
+}
+
 type Ship = {
   name: string,
-  class: Class,
+  rank: Rank,
+  race: string,
   initiative: number,
+  fuselage: number,
   agility: number,
-  weaponsSpeed: number,
   firePower: number,
   fireRate: number,
   quantityOfWeapons: number,
+  weaponsSpeed: number,
   damageType: string,
-  fuselage: number,
   empResistance: number,
+  metalium: number,
+	carbonum: number,
+	plutonium: number,
 }
 
 interface ShipGroup {
   data: Ship;
   name: string;
-  class: string;
+  rank: string;
   initiative: number;
-  agility: number;
-  weaponsSpeed: number;
-  damageOutput: number;
-  damageType: string;
   fuselage: number;
+  agility: number;
+  damageOutput: number;
+  weaponsSpeed: number;
+  damageType: string;
   empResistance: number;
   count: number;
   affected: number;
@@ -38,4 +54,4 @@ interface ShipGroup {
   neutralized: number;
 }
 
-export { Class, Ship, ShipGroup };
+export { Rank, BalanceStats, Ship, ShipGroup };

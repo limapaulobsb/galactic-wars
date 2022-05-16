@@ -1,5 +1,5 @@
 import shipData from './shipData';
-import { Class, Ship, ShipGroup } from '../Types';
+import { Rank, Ship, ShipGroup } from '../Types';
 
 class Ships implements ShipGroup {
   private _data: Ship;
@@ -21,20 +21,20 @@ class Ships implements ShipGroup {
     return this._data.name;
   }
 
-  get class(): string {
-    return Class[this._data.class];
+  get rank(): string {
+    return Rank[this._data.rank];
   }
 
   get initiative(): number {
     return this._data.initiative;
   }
 
-  get agility(): number {
-    return this._data.agility;
+  get fuselage(): number {
+    return this._data.fuselage * this._count;
   }
 
-  get weaponsSpeed(): number {
-    return this._data.weaponsSpeed;
+  get agility(): number {
+    return this._data.agility;
   }
 
   get damageOutput(): number {
@@ -42,12 +42,12 @@ class Ships implements ShipGroup {
     return firePower * fireRate * quantityOfWeapons * this._count;
   }
 
-  get damageType(): string {
-    return this._data.damageType;
+  get weaponsSpeed(): number {
+    return this._data.weaponsSpeed;
   }
 
-  get fuselage(): number {
-    return this._data.fuselage * this._count;
+  get damageType(): string {
+    return this._data.damageType;
   }
 
   get empResistance(): number {

@@ -6,48 +6,75 @@
 5 Mothership
 
 0 {
-	agility: 75~89
-	damageOutput: 4~10
-	fuselage: 4~10
-	empResistance: 0~4
-	metalium:
-	carbonum:
-	plutonium:
+  initiative: 
+  fuselage: 5~10
+  agility: 
+  damageOutput: 20~40
+  weaponsSpeed: 
+  empResistance: 0~4
+  resources: metalium
+  
+  powerIndex: 10~20
 }
 
 1 {
-	agility: 60~74
-	damageOutput: 10~40
-	fuselage: 10~40
-	empResistance: 5~9
+  initiative: 
+  fuselage: 10~20
+  agility: 
+  damageOutput: 40~80
+  weaponsSpeed: 
+  empResistance: 5~9
+  resources: metalium
+  
+  powerIndex: 20~40
 }
 
 2 {
-	agility: 45~59
-	damageOutput: 40~100
-	fuselage: 40~100
-	empResistance: 10~14
+  initiative: 
+  fuselage: 20~40
+  agility: 
+  damageOutput: 80~160
+  weaponsSpeed: 
+  empResistance: 10~14
+  resources: metalium, carbonum
+  
+  powerIndex: 40~80
 }
 
 3 {
-	agility: 30~44
-	damageOutput: 100~200
-	fuselage: 100~200
-	empResistance: 15~19
+  initiative: 
+  fuselage: 40~80
+  agility: 
+  damageOutput: 160~320
+  weaponsSpeed: 
+  empResistance: 15~19
+  resources: metalium, carbonum
+  
+  powerIndex: 80~160
 }
 
 4 {
-	agility: 15~29
-	damageOutput: 200~400
-	fuselage: 200~400
-	empResistance: 20~24
+  initiative: 
+  fuselage: 80~160
+  agility: 
+  damageOutput: 320~640
+  weaponsSpeed: 
+  empResistance: 20~24
+  resources: metalium, carbonum, plutonium
+  
+  powerIndex: 160~320
 }
 
 5 {
-	agility: 0~14
-	damageOutput: 400~800
-	fuselage: 400~800
-	empResistance: 25~29
+  initiative: 
+  fuselage: 160~320
+  agility: 
+  damageOutput: 640~1280
+  weaponsSpeed: 
+  empResistance: 25~29
+  resources: metalium, carbonum, plutonium
+  
+  powerIndex: 320~640
 }
 
 
