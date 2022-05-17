@@ -7,38 +7,26 @@ enum Rank {
   'Mothership',
 }
 
-type BalanceStats = {
-  name: string,
-  rank: Rank,
-  initiative: number,
-  attack: number,
-  defense: number,
-  combatRatio: number,
-  resourceCost: number,
-  powerIndex: number,
-  costBenefitRatio: number,
-}
+type Unit = {
+  name: string;
+  rank: Rank;
+  race: string | undefined;
+  initiative: number;
+  fuselage: number;
+  agility: number;
+  firePower: number;
+  fireRate: number;
+  quantityOfWeapons: number;
+  weaponsSpeed: number;
+  damageType: string;
+  empResistance: number;
+  metalium: number;
+  carbonum: number;
+  plutonium: number;
+};
 
-type Ship = {
-  name: string,
-  rank: Rank,
-  race: string,
-  initiative: number,
-  fuselage: number,
-  agility: number,
-  firePower: number,
-  fireRate: number,
-  quantityOfWeapons: number,
-  weaponsSpeed: number,
-  damageType: string,
-  empResistance: number,
-  metalium: number,
-	carbonum: number,
-	plutonium: number,
-}
-
-interface ShipGroup {
-  data: Ship;
+interface UnitGroup {
+  data: Unit;
   name: string;
   rank: string;
   initiative: number;
@@ -54,4 +42,16 @@ interface ShipGroup {
   neutralized: number;
 }
 
-export { Rank, BalanceStats, Ship, ShipGroup };
+type BalanceStats = {
+  name: string;
+  rank: Rank;
+  initiative: number;
+  attack: number;
+  defense: number;
+  combatRatio: number;
+  powerIndex: number;
+  resourceCost: number;
+  benefitCostRatio: number;
+};
+
+export { Rank, Unit, UnitGroup, BalanceStats };

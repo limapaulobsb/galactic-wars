@@ -78,6 +78,14 @@
 }
 
 
+=> Defense
+
+Eagle Artillery
+Laser Cannon
+Inferno Tower
+Phaser
+Doctor
+
 => Human
 
 Artemis

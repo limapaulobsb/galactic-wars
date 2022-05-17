@@ -1,12 +1,15 @@
-// import Ships from './Ships';
-import shipData from './Ships/shipData';
+import { Ships, Defenses } from './Units';
+import shipData from './data/shipData';
+// import defenseData from './data/defenseData';
 import { balanceStats } from './utils';
 
 // Balance Stats
 
 console.log(shipData.map(balanceStats));
 
-// const artemisGroup1 = new Ships('Artemis', 10000);
+// Unit Groups
+
+const artemisGroup1 = new Ships('Artemis', 10000);
 // const perseusGroup1 = new Ships('Perseus', 5000);
 // const heraGroup1 = new Ships('Hera', 4000);
 // const demeterGroup1 = new Ships('Demeter', 2000);
@@ -32,3 +35,7 @@ console.log(shipData.map(balanceStats));
 // const nephthysGroup1 = new Ships('Nephthys', 300);
 // const amunraGroup1 = new Ships('Amun-Ra', 200);
 
+const cannonGroup1 = new Defenses('Laser Cannon', 5000);
+
+console.log(artemisGroup1.name);
+console.log(cannonGroup1.name);

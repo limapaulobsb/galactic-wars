@@ -1,19 +1,13 @@
-import shipData from './shipData';
-import { Rank, Ship, ShipGroup } from '../Types';
+import { Rank, Unit, UnitGroup } from '../Types';
 
-class Ships implements ShipGroup {
-  private _data: Ship;
+abstract class Units implements UnitGroup {
   private _destroyed = 0;
   private _neutralized = 0;
   // private _excessDamage = 0;
 
-  constructor(name: string, private _count: number) {
-    const data = shipData.find((ship) => ship.name === name);
-    if (!data) throw new Error('Invalid ship name for class constructor');
-    this._data = data;
-  }
+  constructor(private _data: Unit, private _count: number) {}
 
-  get data(): Ship {
+  get data(): Unit {
     return this._data;
   }
 
@@ -71,4 +65,4 @@ class Ships implements ShipGroup {
   }
 }
 
-export default Ships;
+export default Units;
