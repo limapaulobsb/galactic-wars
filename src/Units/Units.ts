@@ -1,9 +1,10 @@
-import { Rank, Unit, UnitGroup } from '../Types';
+import { Count, Damage, Unit, UnitGroup } from '../Types';
+import { hitPercentage } from '../utils';
 
 abstract class Units implements UnitGroup {
   private _destroyed = 0;
   private _neutralized = 0;
-  // private _excessDamage = 0;
+  private _excessDamage = 0;
 
   constructor(private _data: Unit, private _count: number) {}
 
@@ -11,57 +12,67 @@ abstract class Units implements UnitGroup {
     return this._data;
   }
 
-  get name(): string {
-    return this._data.name;
+  get count(): Count {
+    return {
+      available: this._count,
+      affected: this._destroyed + this._neutralized,
+      destroyed: this._destroyed,
+      neutralized: this._neutralized,
+    };
   }
 
-  get rank(): string {
-    return Rank[this._data.rank];
-  }
-
-  get initiative(): number {
-    return this._data.initiative;
+  get damage(): Damage {
+    const {
+      damageType: type,
+      firePower,
+      fireRate,
+      quantityOfWeapons,
+      weaponsSpeed: speed,
+      initiative: priority,
+    } = this._data;
+    const output = firePower * fireRate * quantityOfWeapons * this._count;
+    return { type, output, speed, priority };
   }
 
   get fuselage(): number {
     return this._data.fuselage * this._count;
   }
 
-  get agility(): number {
-    return this._data.agility;
+  addUnits(count: number): void {
+    this._count += count;
   }
 
-  get damageOutput(): number {
-    const { firePower, fireRate, quantityOfWeapons } = this._data;
-    return firePower * fireRate * quantityOfWeapons * this._count;
+  removeUnits(count: number): void {
+    this._count = this._count > count ? this._count - count : 0;
   }
 
-  get weaponsSpeed(): number {
-    return this._data.weaponsSpeed;
-  }
-
-  get damageType(): string {
-    return this._data.damageType;
-  }
-
-  get empResistance(): number {
-    return this._data.empResistance;
-  }
-
-  get count(): number {
-    return this._count;
-  }
-
-  get affected(): number {
-    return this._destroyed + this._neutralized;
-  }
-
-  get destroyed(): number {
-    return this._destroyed;
-  }
-
-  get neutralized(): number {
-    return this._neutralized;
+  receiveDamage({ type, output, speed }: Damage): void {
+    if (this.fuselage > 0) {
+      // Damage correction
+      console.log(output);
+      console.log(hitPercentage(speed, this._data.agility));
+      
+      let damage = output * hitPercentage(speed, this._data.agility);
+      if (type === 'EMP') {
+        damage /= 1 + this._data.empResistance / 100;
+      } else {
+        damage += this._excessDamage;
+      }
+      if (damage > this.fuselage) {
+        damage = this.fuselage;
+      }
+      console.log(damage);
+      
+      // Update group count
+      const affected = Math.trunc(damage / this._data.fuselage);
+      this._count -= affected;
+      if (type === 'EMP') {
+        this._neutralized += affected;
+      } else {
+        this._destroyed += affected;
+        this._excessDamage = damage % this._data.fuselage;
+      }
+    }
   }
 }
 

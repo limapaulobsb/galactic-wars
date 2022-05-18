@@ -4,4 +4,4 @@ import Defenses from './Defenses';
 
 export default Units;
 
-export { Ships, Defenses };
+export { Defenses, Ships  };

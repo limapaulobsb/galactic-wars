@@ -11,47 +11,63 @@ type Unit = {
   name: string;
   rank: Rank;
   race: string | undefined;
-  initiative: number;
-  fuselage: number;
-  agility: number;
+  damageType: string;
   firePower: number;
   fireRate: number;
   quantityOfWeapons: number;
   weaponsSpeed: number;
-  damageType: string;
+  fuselage: number;
+  agility: number;
+  initiative: number;
   empResistance: number;
   metalium: number;
   carbonum: number;
   plutonium: number;
 };
 
-interface UnitGroup {
-  data: Unit;
-  name: string;
-  rank: string;
-  initiative: number;
-  fuselage: number;
-  agility: number;
-  damageOutput: number;
-  weaponsSpeed: number;
-  damageType: string;
-  empResistance: number;
-  count: number;
+type Count = {
+  available: number;
   affected: number;
   destroyed: number;
   neutralized: number;
-}
+};
+
+type Damage = {
+  type: string;
+  output: number;
+  speed: number;
+  priority?: number;
+};
 
 type BalanceStats = {
   name: string;
   rank: Rank;
-  initiative: number;
-  attack: number;
-  defense: number;
+  damage: number;
+  fuselage: number;
   combatRatio: number;
+  initiativeRatio: number;
   powerIndex: number;
   resourceCost: number;
   benefitCostRatio: number;
 };
 
-export { Rank, Unit, UnitGroup, BalanceStats };
+interface UnitGroup {
+  data: Unit;
+  count: Count;
+  damage: Damage;
+  fuselage: number;
+  addUnits(count: number): void;
+  removeUnits(count: number): void;
+  receiveDamage(damage: Damage): void;
+}
+
+interface ShipGroup {
+  ships: [string, Count][];
+  damage: Damage[];
+  fuselage: number;
+  addShips(name: string, count: number): void;
+  removeShips(name: string, count: number): void;
+  receiveDamage(damage: Damage): void;
+}
+
+export { BalanceStats, Count, Damage, Rank, ShipGroup, Unit, UnitGroup };
