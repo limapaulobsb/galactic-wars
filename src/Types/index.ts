@@ -39,6 +39,25 @@ type Damage = {
   priority?: number;
 };
 
+interface Group {
+  data: Unit;
+  count: Count;
+  damage: Damage;
+  fuselage: number;
+  addUnits(count: number): void;
+  removeUnits(count: number): void;
+  receiveDamage(damage: Damage): void;
+}
+
+interface SuperGroup {
+  groups: [string, Count][];
+  damage: Damage[];
+  fuselage: number;
+  addShips(name: string, count: number): void;
+  removeShips(name: string, count: number): void;
+  receiveDamage(damage: Damage): void;
+}
+
 type BalanceStats = {
   name: string;
   rank: Rank;
@@ -51,23 +70,4 @@ type BalanceStats = {
   benefitCostRatio: number;
 };
 
-interface UnitGroup {
-  data: Unit;
-  count: Count;
-  damage: Damage;
-  fuselage: number;
-  addUnits(count: number): void;
-  removeUnits(count: number): void;
-  receiveDamage(damage: Damage): void;
-}
-
-interface ShipGroup {
-  ships: [string, Count][];
-  damage: Damage[];
-  fuselage: number;
-  addShips(name: string, count: number): void;
-  removeShips(name: string, count: number): void;
-  receiveDamage(damage: Damage): void;
-}
-
-export { BalanceStats, Count, Damage, Rank, ShipGroup, Unit, UnitGroup };
+export { BalanceStats, Count, Damage, Group, Rank, SuperGroup, Unit };

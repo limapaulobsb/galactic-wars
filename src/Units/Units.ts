@@ -1,7 +1,7 @@
-import { Count, Damage, Unit, UnitGroup } from '../Types';
+import { Count, Damage, Group, Unit} from '../Types';
 import { hitPercentage } from '../utils';
 
-abstract class Units implements UnitGroup {
+abstract class Units implements Group {
   private _destroyed = 0;
   private _neutralized = 0;
   private _excessDamage = 0;
@@ -49,9 +49,6 @@ abstract class Units implements UnitGroup {
   receiveDamage({ type, output, speed }: Damage): void {
     if (this.fuselage > 0) {
       // Damage correction
-      console.log(output);
-      console.log(hitPercentage(speed, this._data.agility));
-      
       let damage = output * hitPercentage(speed, this._data.agility);
       if (type === 'EMP') {
         damage /= 1 + this._data.empResistance / 100;
@@ -61,8 +58,6 @@ abstract class Units implements UnitGroup {
       if (damage > this.fuselage) {
         damage = this.fuselage;
       }
-      console.log(damage);
-      
       // Update group count
       const affected = Math.trunc(damage / this._data.fuselage);
       this._count -= affected;

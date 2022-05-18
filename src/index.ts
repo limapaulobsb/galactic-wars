@@ -1,16 +1,7 @@
-// import shipData from './data/shipData';
-// import defenseData from './data/defenseData';
-// import { balanceStats } from './utils';
 import { Ships } from './Units';
-import Fleet from './Fleet';
+import { Fleet } from './Forces';
 
-// <<<==========    Balance Stats   ==========>>>
-
-// console.log(shipData.map(balanceStats));
-// console.log(defenseData.map(balanceStats));
-// console.log(balanceStats(shipData[0]));
-
-// <<<==========    Unit Groups   ==========>>>
+// <<<==========    Groups   ==========>>>
 
 const artemisGroup1 = new Ships('Artemis', 3000);
 // const perseusGroup1 = new Ships('Perseus', 2000);
@@ -43,7 +34,7 @@ const artemisGroup1 = new Ships('Artemis', 3000);
 // console.log(artemisGroup1.data);
 // console.log(artemisGroup1.count);
 
-// <<<==========    Fleets    ==========>>>
+// <<<==========    Super Groups    ==========>>>
 
 const fleet1 = new Fleet([
   artemisGroup1,
@@ -62,7 +53,7 @@ const fleet1 = new Fleet([
   // horusGroup1,
   // setGroup1,
   // gebGroup1,
-  // bastetGroup1, 
+  // bastetGroup1,
   // nutGroup1,
   // sekhmetGroup1,
   // anubisGroup1,
@@ -74,15 +65,10 @@ const fleet1 = new Fleet([
 // fleet1.addShips('Ares', 50);
 // fleet1.removeShips('Zeus', 500);
 
-
-console.log(fleet1.ships);
-console.log(fleet1.damage.reduce((acc, curr) => acc + curr.output, 0));
-console.log(fleet1.fuselage);
-
+console.log(fleet1.groups);
 
 fleet1.receiveDamage({ type: 'Normal', output: 59999, speed: 55 });
-fleet1.receiveDamage({ type: 'Normal', output: 1, speed: 55 });
-
+// fleet1.receiveDamage({ type: 'Normal', output: 1, speed: 55 });
 // fleet1.receiveDamage({ type: 'EMP', output: 100000, speed: 55 });
 
-console.log(fleet1.ships);
+console.log(fleet1.groups);
