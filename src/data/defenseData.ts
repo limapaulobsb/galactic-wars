@@ -1,7 +1,6 @@
 export default [
   {
     name: 'Laser Cannon',
-    type: 'Base defense',
     rank: 0,
     race: undefined,
     damageType: 'Normal',
@@ -19,7 +18,6 @@ export default [
   },
   {
     name: 'Inferno Tower',
-    type: 'Base defense',
     rank: 1,
     race: undefined,
     damageType: 'Normal',
@@ -37,7 +35,6 @@ export default [
   },
   {
     name: 'Eagle Artillery',
-    type: 'Base defense',
     rank: 2,
     race: undefined,
     damageType: 'Normal',
@@ -55,7 +52,6 @@ export default [
   },
   {
     name: 'Phaser',
-    type: 'Base defense',
     rank: 3,
     race: undefined,
     damageType: 'EMP',
@@ -73,7 +69,6 @@ export default [
   },
   {
     name: 'Doctor',
-    type: 'Base defense',
     rank: 4,
     race: undefined,
     damageType: 'Normal',
@@ -91,7 +86,6 @@ export default [
   },
   {
     name: 'Death Star',
-    type: 'Base defense',
     rank: 5,
     race: undefined,
     damageType: 'Normal',

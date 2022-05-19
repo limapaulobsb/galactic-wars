@@ -1,4 +1,4 @@
-import { BalanceStats, Unit } from '../Types';
+import { BalanceStats, Unit } from '../types';
 import referenceValues from './referenceValues';
 
 const {

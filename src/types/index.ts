@@ -39,6 +39,17 @@ type Damage = {
   priority?: number;
 };
 
+type GroupInfo = {
+  name: string;
+  count: Count;
+};
+
+type Roids = {
+  metalium: number;
+  carbonum: number;
+  plutonium: number;
+};
+
 interface Group {
   data: Unit;
   count: Count;
@@ -50,12 +61,17 @@ interface Group {
 }
 
 interface SuperGroup {
-  groups: [string, Count][];
+  groups: GroupInfo[];
   damage: Damage[];
   fuselage: number;
-  addShips(name: string, count: number): void;
+  addUnits(name: string, count: number): void;
   removeShips(name: string, count: number): void;
   receiveDamage(damage: Damage): void;
+}
+
+interface Base {
+  defense: GroupInfo[];
+  roids: Roids;
 }
 
 type BalanceStats = {
@@ -70,4 +86,15 @@ type BalanceStats = {
   benefitCostRatio: number;
 };
 
-export { BalanceStats, Count, Damage, Group, Rank, SuperGroup, Unit };
+export {
+  BalanceStats,
+  Base,
+  Count,
+  Damage,
+  Group,
+  GroupInfo,
+  Rank,
+  Roids,
+  SuperGroup,
+  Unit,
+};

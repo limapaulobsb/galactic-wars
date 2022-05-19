@@ -1,5 +1,5 @@
 import Units from './Units';
-import defenseData from '../data/defenseData';
+import defenseData from '../../data/defenseData';
 
 class Defenses extends Units {
   constructor(name: string, count: number) {

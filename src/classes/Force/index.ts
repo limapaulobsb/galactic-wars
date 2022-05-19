@@ -1,4 +1,4 @@
-import Forces from './Forces';
+import Forces from './Force';
 import Fleet from './Fleet';
 import BaseDefense from './BaseDefense';
 

@@ -1,5 +1,5 @@
-import { Count, Damage, Group, Unit } from '../Types';
-import { hitPercentage } from '../utils';
+import { Count, Damage, Group, Unit } from '../../types';
+import { hitPercentage } from '../../utils';
 
 abstract class Units implements Group {
   private _destroyed = 0;

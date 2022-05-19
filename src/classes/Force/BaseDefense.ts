@@ -1,8 +1,8 @@
-import Forces from './Forces';
+import Forces from './Force';
 import { Defenses } from '../Units';
 
 class BaseDefense extends Forces {
-  constructor(groups: Defenses[]) {
+  constructor(groups: Defenses[] = []) {
     for (const group of groups) {
       if (!(group instanceof Defenses)) {
         throw new Error('Invalid array for class constructor');
@@ -11,7 +11,7 @@ class BaseDefense extends Forces {
     super(groups);
   }
 
-  addShips(name: string, count: number): void {
+  addUnits(name: string, count: number): void {
     const index = this._groups.findIndex(({ data }) => data.name === name);
     if (index !== -1) this._groups[index].addUnits(count);
     else this._groups.push(new Defenses(name, count));
