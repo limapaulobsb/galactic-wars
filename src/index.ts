@@ -65,7 +65,7 @@ const fleet1 = new Fleet([
 // fleet1.addShips('Ares', 50);
 // fleet1.removeShips('Zeus', 500);
 
-console.log(fleet1.groups);
+console.log(fleet1.fuselage);
 
 fleet1.receiveDamage({ type: 'Normal', output: 59999, speed: 55 });
 // fleet1.receiveDamage({ type: 'Normal', output: 1, speed: 55 });

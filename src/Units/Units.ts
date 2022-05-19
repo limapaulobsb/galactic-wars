@@ -1,4 +1,4 @@
-import { Count, Damage, Group, Unit} from '../Types';
+import { Count, Damage, Group, Unit } from '../Types';
 import { hitPercentage } from '../utils';
 
 abstract class Units implements Group {

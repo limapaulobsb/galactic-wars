@@ -1,8 +1,8 @@
+import Units from '../Units';
 import { Count, Damage, SuperGroup } from '../Types';
-import { Ships } from '../Units';
 
-class Forces implements SuperGroup {
-  constructor(private _groups: Ships[]) {}
+abstract class Forces implements SuperGroup {
+  constructor(protected _groups: Units[]) {}
 
   get groups(): [string, Count][] {
     return this._groups.map((group) => [group.data.name, group.count]);
@@ -16,11 +16,7 @@ class Forces implements SuperGroup {
     return this._groups.reduce((acc, curr) => acc + curr.fuselage, 0);
   }
 
-  addShips(name: string, count: number): void {
-    const index = this._groups.findIndex(({ data }) => data.name === name);
-    if (index !== -1) this._groups[index].addUnits(count);
-    else this._groups.push(new Ships(name, count));
-  }
+  abstract addShips(name: string, count: number): void;
 
   removeShips(name: string, count: number): void {
     const index = this._groups.findIndex(({ data }) => data.name === name);

@@ -10,6 +10,12 @@ class Fleet extends Forces {
     }
     super(groups);
   }
+
+  addShips(name: string, count: number): void {
+    const index = this._groups.findIndex(({ data }) => data.name === name);
+    if (index !== -1) this._groups[index].addUnits(count);
+    else this._groups.push(new Ships(name, count));
+  }
 }
 
 export default Fleet;
