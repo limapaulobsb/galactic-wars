@@ -50,8 +50,10 @@ type Roids = {
   plutonium: number;
 };
 
-type Log = {
-  tick: number;
+type CombatLog = {
+  round: number;
+  attack: GroupInfo[][];
+  defense: GroupInfo[][];
 };
 
 interface Group {
@@ -79,18 +81,13 @@ interface Base {
 }
 
 interface Encounter {
-  attackingForces: SuperGroup[];
-  defendingForces: SuperGroup[];
-  attackingFleets: GroupInfo[][];
-  defendingFleets: GroupInfo[][];
-  getDamage(forces: SuperGroup[]): Damage[];
-  getFuselage(forces: SuperGroup[]): number;
+  attackingGroups: GroupInfo[][];
+  defendingGroups: GroupInfo[][];
+  logs: CombatLog[];
   // joinFleet(fleet: SuperGroup): void;
   // withdrawFleet(id: string): void;
-  assignDamage(damage: Damage, forces: SuperGroup[]): void;
   execute(): void;
   resolve(): void;
-  // log(): Log[];
 }
 
 type BalanceStats = {
@@ -108,12 +105,12 @@ type BalanceStats = {
 export {
   BalanceStats,
   Base,
+  CombatLog,
   Count,
   Damage,
   Encounter,
   Group,
   GroupInfo,
-  Log,
   Rank,
   Roids,
   SuperGroup,

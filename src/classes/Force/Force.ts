@@ -10,11 +10,11 @@ abstract class Forces implements SuperGroup {
   }
 
   get damage(): Damage[] {
-    return this._groups.map((group) => group.damage);
+    return this._groups.map(({ damage }) => damage);
   }
 
   get fuselage(): number {
-    return this._groups.reduce((acc, curr) => acc + curr.fuselage, 0);
+    return this._groups.reduce((acc, { fuselage }) => acc + fuselage, 0);
   }
 
   abstract addUnits(name: string, count: number): void;
@@ -28,7 +28,7 @@ abstract class Forces implements SuperGroup {
     // Calculates the weight of each group and passes the damage along
     const initialFuselage = this.fuselage;
     for (const group of this._groups) {
-      const weight = ceil(group.fuselage / initialFuselage , 3);
+      const weight = ceil(group.fuselage / initialFuselage, 3);
       const damage = {
         type,
         output: round(output * weight, 0),

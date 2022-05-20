@@ -68,8 +68,8 @@ const baseDefense = new BaseDefense(defenses);
 const galaxy = new Galaxy(baseDefense);
 const combat = new Combat([fleet1], [fleet2], galaxy);
 
-combat.resolve();
+combat.execute();
+combat.execute();
 
-console.dir(combat.attackingFleets, { depth: null });
-console.dir(combat.defendingFleets, { depth: null });
-console.dir(baseDefense.groups, { depth: null });
+console.dir(combat.logs, { depth: null });
+
