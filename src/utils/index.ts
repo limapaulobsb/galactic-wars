@@ -4,6 +4,7 @@ import referenceValues from './referenceValues';
 const {
   MIN_WSD,
   MAX_WSD,
+  AVG_WSD,
   MIN_AGI,
   MAX_AGI,
   AVG_AGI,
@@ -15,6 +16,18 @@ const {
   RES_MUL,
   NUM_STK,
 } = referenceValues;
+
+function round(n: number, decimalPlaces: number): number {
+  return Math.round(n * 10 ** decimalPlaces) / 10 ** decimalPlaces;
+}
+
+function ceil(n: number, decimalPlaces: number): number {
+  return Math.ceil(n * 10 ** decimalPlaces) / 10 ** decimalPlaces;
+}
+
+function floor(n: number, decimalPlaces: number): number {
+  return Math.floor(n * 10 ** decimalPlaces) / 10 ** decimalPlaces;
+}
 
 function balanceRatio(n: number, min: number, max: number): number {
   // Indicates how close a number is to an average
@@ -28,10 +41,6 @@ function hitPercentage(weaponsSpeed: number, agility: number): number {
   return ((weaponsSpeedRatio - agilityRatio) / 2 + 1) / 2;
 }
 
-function round(n: number, decimalPlaces: number): number {
-  return Math.round((n + Number.EPSILON) * 10 ** decimalPlaces) / 10 ** decimalPlaces;
-}
-
 function balanceStats(data: Unit[]): BalanceStats[] {
   return data.map(
     ({
@@ -43,16 +52,18 @@ function balanceStats(data: Unit[]): BalanceStats[] {
       quantityOfWeapons,
       weaponsSpeed,
       fuselage,
+      agility,
       initiative,
       metalium,
       carbonum,
       plutonium,
     }) => {
       const output = firePower * fireRate * quantityOfWeapons;
-      const damage = output * hitPercentage(weaponsSpeed, AVG_AGI);
-      // if (damageType === 'EMP') damage /= EMP_MUL;
-      const combatRatio = damage / fuselage;
-      const averagePower = (damage + fuselage) / 2;
+      const attack = output * hitPercentage(weaponsSpeed, AVG_AGI);
+      // if (damageType === 'EMP') attack /= EMP_MUL;
+      const defense = fuselage / hitPercentage(AVG_WSD, agility);
+      const combatRatio = attack / fuselage;
+      const averagePower = (attack + defense) / 2;
       const initiativeRatio = balanceRatio(initiative, MIN_INI, MAX_INI);
       const initiativeFactor = combatRatio * (NUM_STK - 1);
       const powerIndex = averagePower * initiativeRatio ** initiativeFactor;
@@ -62,8 +73,8 @@ function balanceStats(data: Unit[]): BalanceStats[] {
       return {
         name,
         rank,
-        damage: round(damage, 1),
-        fuselage,
+        attack: round(attack, 1),
+        defense: round(defense, 1),
         combatRatio: round(combatRatio, 2),
         initiativeRatio: round(initiativeRatio, 2),
         powerIndex: round(powerIndex, 1),
@@ -74,4 +85,4 @@ function balanceStats(data: Unit[]): BalanceStats[] {
   );
 }
 
-export { referenceValues, hitPercentage, balanceStats };
+export { balanceRatio, balanceStats, ceil, floor, hitPercentage, referenceValues, round };

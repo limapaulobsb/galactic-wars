@@ -8,7 +8,7 @@ const AVG_AGI = (MAX_AGI + MIN_AGI) / 2; // Average weapons speed
 const MIN_INI = 50; // Minimum initiative
 const MAX_INI = 90; // Maximum initiative
 const AVG_INI = (MAX_INI + MIN_INI) / 2; // Average weapons speed
-const EMP_MUL = 1.25;
+const EMP_MUL = 1.25; // EMP damage multiplier
 
 // Resources
 const CAR_MUL = 2; // Carbonum multiplier
@@ -17,6 +17,7 @@ const RES_MUL = 100; // Resource multiplier
 
 // Combat
 const NUM_STK = 4; // Number of strikes
+const INI_STP = (MAX_INI - MIN_INI) / NUM_STK; // Initiative Step
 
 export default {
   MIN_WSD,
@@ -33,4 +34,5 @@ export default {
   PLU_MUL,
   RES_MUL,
   NUM_STK,
+  INI_STP,
 };
