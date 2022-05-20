@@ -36,7 +36,7 @@ type Damage = {
   type: string;
   output: number;
   speed: number;
-  priority: number;
+  priority?: number;
 };
 
 type GroupInfo = {
@@ -49,8 +49,6 @@ type Roids = {
   carbonum: number;
   plutonium: number;
 };
-
-type Target = 'attackers' | 'defenders';
 
 type Log = {
   tick: number;
@@ -81,13 +79,17 @@ interface Base {
 }
 
 interface Encounter {
+  attackingForces: SuperGroup[];
+  defendingForces: SuperGroup[];
   attackingFleets: GroupInfo[][];
   defendingFleets: GroupInfo[][];
+  getDamage(forces: SuperGroup[]): Damage[];
+  getFuselage(forces: SuperGroup[]): number;
   // joinFleet(fleet: SuperGroup): void;
   // withdrawFleet(id: string): void;
-  assignDamage(damage: Damage, target: Target): void;
+  assignDamage(damage: Damage, forces: SuperGroup[]): void;
   execute(): void;
-  // resolve(): void;
+  resolve(): void;
   // log(): Log[];
 }
 
@@ -115,6 +117,5 @@ export {
   Rank,
   Roids,
   SuperGroup,
-  Target,
   Unit,
 };
