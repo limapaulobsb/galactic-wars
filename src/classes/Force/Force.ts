@@ -1,43 +1,45 @@
-import { Damage, GroupInfo, SuperGroup } from '../../types';
 import Units from '../Units';
+import { Damage, GroupInfo, SuperGroup } from '../../types';
 import { ceil, round } from '../../utils';
 
-abstract class Forces implements SuperGroup {
+abstract class Force implements SuperGroup {
   constructor(protected _groups: Units[]) {}
 
-  get groups(): GroupInfo[] {
+  public get groups(): GroupInfo[] {
     return this._groups.map(({ data: { name }, count }) => ({ name, count }));
   }
 
-  get damage(): Damage[] {
+  public get damages(): Damage[] {
     return this._groups.map(({ damage }) => damage);
   }
 
-  get fuselage(): number {
+  public get fuselage(): number {
     return this._groups.reduce((acc, { fuselage }) => acc + fuselage, 0);
   }
 
-  abstract addUnits(name: string, count: number): void;
+  public abstract addUnits(name: string, count: number): void;
 
-  removeUnits(name: string, count: number): void {
+  public removeUnits(name: string, count: number): void {
     const index = this._groups.findIndex(({ data }) => data.name === name);
     if (index !== -1) this._groups[index].removeUnits(count);
   }
 
-  receiveDamage({ type, output, speed, priority }: Damage): void {
+  public distributeDamages(damage: Damage): void {
+    const { type, output, weaponsSpeed, priority } = damage;
+    const totalFuselage = this.fuselage;
     // Calculates the weight of each group and passes the damage along
-    const initialFuselage = this.fuselage;
     for (const group of this._groups) {
-      const weight = ceil(group.fuselage / initialFuselage, 3);
-      const damage = {
-        type,
-        output: round(output * weight, 0),
-        speed,
-        priority,
-      };
-      group.receiveDamage(damage);
+      if (group.fuselage > 0) {
+        const weight = ceil(group.fuselage / totalFuselage, 4);
+        group.receiveDamage({
+          type,
+          output: round(output * weight),
+          weaponsSpeed,
+          priority,
+        });
+      }
     }
   }
 }
 
-export default Forces;
+export default Force;

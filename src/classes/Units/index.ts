@@ -1,7 +1,8 @@
 import Units from './Units';
-import Ships from './Ships';
 import Defenses from './Defenses';
+import Extractors from './Extractors';
+import Fighters from './Fighters';
 
 export default Units;
 
-export { Defenses, Ships  };
+export { Defenses, Extractors, Fighters };

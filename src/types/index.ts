@@ -9,17 +9,19 @@ enum Rank {
 
 type Unit = {
   name: string;
+  type?: string;
   rank: Rank;
-  race: string | undefined;
+  race?: string;
   damageType: string;
   firePower: number;
   fireRate: number;
   quantityOfWeapons: number;
   weaponsSpeed: number;
   fuselage: number;
-  agility: number;
+  agility?: number;
   initiative: number;
   empResistance: number;
+  storageCapacity?: number;
   metalium: number;
   carbonum: number;
   plutonium: number;
@@ -35,8 +37,8 @@ type Count = {
 type Damage = {
   type: string;
   output: number;
-  speed: number;
-  priority?: number;
+  weaponsSpeed: number;
+  priority: number;
 };
 
 type GroupInfo = {
@@ -44,16 +46,14 @@ type GroupInfo = {
   count: Count;
 };
 
-type Roids = {
-  metalium: number;
-  carbonum: number;
-  plutonium: number;
-};
+type Roids = [number, number, number];
 
 type CombatLog = {
   round: number;
   attack: GroupInfo[][];
   defense: GroupInfo[][];
+  baseStorage: Roids;
+  attackStorage: Roids[];
 };
 
 interface Group {
@@ -68,11 +68,11 @@ interface Group {
 
 interface SuperGroup {
   groups: GroupInfo[];
-  damage: Damage[];
+  damages: Damage[];
   fuselage: number;
   addUnits(name: string, count: number): void;
   removeUnits(name: string, count: number): void;
-  receiveDamage(damage: Damage): void;
+  distributeDamages(damage: Damage): void;
 }
 
 interface Base {
@@ -86,7 +86,7 @@ interface Encounter {
   logs: CombatLog[];
   // joinFleet(fleet: SuperGroup): void;
   // withdrawFleet(id: string): void;
-  execute(): void;
+  advance(): void;
   resolve(): void;
 }
 

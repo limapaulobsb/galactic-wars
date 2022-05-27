@@ -1,7 +1,7 @@
-import Forces from './Force';
-import Fleet from './Fleet';
+import Force from './Force';
 import BaseDefense from './BaseDefense';
+import Fleet from './Fleet';
 
-export default Forces;
+export default Force;
 
 export { BaseDefense, Fleet };

@@ -1,18 +1,18 @@
-import { Base, Roids, SuperGroup } from '../../types';
 import { BaseDefense } from '../Force';
+import { Base, Roids } from '../../types';
 
 class Galaxy implements Base {
   constructor(
-    readonly _defense: BaseDefense = new BaseDefense(),
-    private _roids: Roids = { metalium: 0, carbonum: 0, plutonium: 0 }
+    private _roids: Roids = [0, 0, 0],
+    readonly defense: BaseDefense = new BaseDefense()
   ) {}
 
-  get defense(): SuperGroup {
-    return this._defense;
+  public get roids(): Roids {
+    return this._roids;
   }
 
-  get roids(): Roids {
-    return this._roids;
+  public set roids(roids: Roids) {
+    this._roids = [...roids];
   }
 }
 

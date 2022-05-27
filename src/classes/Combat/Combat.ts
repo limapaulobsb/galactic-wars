@@ -1,91 +1,127 @@
-import { CombatLog, Damage, Encounter, GroupInfo, SuperGroup } from '../../types';
-import { Fleet } from '../Force';
+import Force, { Fleet } from '../Force';
 import Galaxy from '../Galaxy';
-import { ceil, referenceValues, round } from '../../utils';
+import { CombatLog, Damage, Encounter, GroupInfo } from '../../types';
+import { ceil, floor, referenceValues, round } from '../../utils';
 
 class Combat implements Encounter {
-  private attackingForces: SuperGroup[];
-  private defendingForces: SuperGroup[];
+  private _attackingFleets: Fleet[];
+  private _defendingForces: Force[];
   private _rounds = 0;
   private _logs: CombatLog[] = [];
+
   constructor(
     attackingFleets: Fleet[],
     defendingFleets: Fleet[],
-    private _galaxy: Galaxy = new Galaxy()
+    readonly _galaxy: Galaxy = new Galaxy()
   ) {
-    this.attackingForces = [...attackingFleets];
-    this.defendingForces = [...defendingFleets, this._galaxy.defense];
+    this._attackingFleets = [...attackingFleets];
+    this._defendingForces = [...defendingFleets, this._galaxy.defense];
+    this.createLog();
   }
 
-  get logs(): CombatLog[] {
+  private static getDamages(forces: Force[]): Damage[] {
+    return forces.map(({ damages }) => damages).flat();
+  }
+
+  private static getFuselage(forces: Force[]): number {
+    return forces.reduce((acc, { fuselage }) => acc + fuselage, 0);
+  }
+
+  private static assignDamages(damage: Damage, forces: Force[]): void {
+    const { type, output, weaponsSpeed, priority } = damage;
+    const totalFuselage = Combat.getFuselage(forces);
+    // Calculates the weight of each force and passes the damage along
+    for (const force of forces) {
+      if (force.fuselage > 0) {
+        const weight = ceil(force.fuselage / totalFuselage, 4);
+        force.distributeDamages({
+          type,
+          output: round(output * weight),
+          weaponsSpeed,
+          priority,
+        });
+      }
+    }
+  }
+
+  public get attackingGroups(): GroupInfo[][] {
+    return this._attackingFleets.map(({ groups }) => groups);
+  }
+
+  public get defendingGroups(): GroupInfo[][] {
+    return this._defendingForces.map(({ groups }) => groups);
+  }
+
+  public get logs(): CombatLog[] {
     return this._logs;
   }
 
-  static getDamage(forces: SuperGroup[]): Damage[] {
-    return forces.map((fleet) => fleet.damage).flat();
-  }
-
-  static getFuselage(forces: SuperGroup[]): number {
-    return forces.reduce((acc, curr) => acc + curr.fuselage, 0);
-  }
-
-  static assignDamage = ({ type, output, speed }: Damage, forces: SuperGroup[]): void => {
-    // Calculates the weight of each force and passes the damage along
-    const initialFuselage = Combat.getFuselage(forces);
-    for (const force of forces) {
-      const weight = ceil(force.fuselage / initialFuselage, 3);
-      const damage = {
-        type,
-        output: round(output * weight, 0),
-        speed,
-      };
-      force.receiveDamage(damage);
-    }
-  };
-
-  get attackingGroups(): GroupInfo[][] {
-    return this.attackingForces.map(({ groups }) => groups);
-  }
-
-  get defendingGroups(): GroupInfo[][] {
-    return this.defendingForces.map(({ groups }) => groups);
-  }
-
-  // The number of combat phases (strikes) is predefined
-  // Units with higher initiative attack earlier
-  execute(): void {
+  private executeCombat(): void {
+    // The number of combat phases (strikes) is predefined
+    // Units with higher initiative attack earlier
     const { MAX_INI, MIN_INI, INI_STP } = referenceValues;
     for (let i = MAX_INI; i > MIN_INI; i -= INI_STP) {
-      const attackersDamage = Combat.getDamage(this.attackingForces);
-      const defendersDamage = Combat.getDamage(this.defendingForces);
+      const attackersDamage = Combat.getDamages(this._attackingFleets);
+      const defendersDamage = Combat.getDamages(this._defendingForces);
       // Callback function to filter damage by priority
-      const callback = ({ priority }: Damage) => {
-        if (!priority) return false;
+      const filterCb = ({ priority }: Damage) => {
         // Fix for max priority to be included
         if (i === MAX_INI && priority === MAX_INI) return true;
         return priority < i && priority >= i - INI_STP;
       };
-      attackersDamage.filter(callback).forEach((damage) => {
-        Combat.assignDamage(damage, this.attackingForces);
+      attackersDamage.filter(filterCb).forEach((damage) => {
+        Combat.assignDamages(damage, this._defendingForces);
       });
-      defendersDamage.filter(callback).forEach((damage) => {
-        Combat.assignDamage(damage, this.defendingForces);
+      defendersDamage.filter(filterCb).forEach((damage) => {
+        Combat.assignDamages(damage, this._attackingFleets);
       });
     }
-    this._rounds += 1;
+  }
+
+  private executeLoot(): void {
+    const extractorFleets = this._attackingFleets.filter(({ capacity }) => capacity > 0);
+    const totalCapacity = extractorFleets.reduce((acc, { capacity }) => acc + capacity, 0);
+    const initialRoids = [...this._galaxy.roids];
+    for (const fleet of extractorFleets) {
+      // Calculates fleet weight and starts extraction
+      const weight = fleet.capacity / totalCapacity;
+      const extractedRoids = fleet.extract([
+        floor(initialRoids[0] * weight),
+        floor(initialRoids[1] * weight),
+        floor(initialRoids[2] * weight),
+      ]);
+      // Update galaxy roids count
+      this._galaxy.roids = [
+        this._galaxy.roids[0] - extractedRoids[0],
+        this._galaxy.roids[1] - extractedRoids[1],
+        this._galaxy.roids[2] - extractedRoids[2],
+      ];
+    }
+  }
+
+  private createLog(): void {
     this._logs.push({
       round: this._rounds,
       attack: this.attackingGroups,
       defense: this.defendingGroups,
+      baseStorage: this._galaxy.roids,
+      attackStorage: this._attackingFleets.map(({ roids }) => roids),
     });
   }
 
-  resolve(): void {
+  public advance() {
+    this._rounds += 1;
+    this.executeCombat();
+    this.executeLoot();
+    this.createLog();
+  }
+
+  public resolve(): void {
     while (
-      Combat.getFuselage(this.attackingForces) > 0 &&
-      Combat.getFuselage(this.defendingForces) > 0
+      Combat.getFuselage(this._attackingFleets) > 0 &&
+      Combat.getFuselage(this._defendingForces) > 0
     ) {
-      this.execute();
+      this.advance();
     }
   }
 }

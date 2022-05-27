@@ -1,75 +1,54 @@
-import { Defenses, Ships } from './classes/Units';
-import { BaseDefense, Fleet } from './classes/Force';
-import Galaxy from './classes/Galaxy/Galaxy';
 import Combat from './classes/Combat';
+import { Fleet } from './classes/Force';
+import Galaxy from './classes/Galaxy';
+import { Extractors, Fighters } from './classes/Units';
 
-// const fleet1 = new Fleet([
-//   new Ships('Artemis', 2000),
-//   new Ships('Perseus', 1000),
-//   new Ships('Hera', 1000),
-//   new Ships('Demeter', 500),
-//   new Ships('Vulcan', 500),
-//   new Ships('Ares', 500),
-//   new Ships('Thanatos', 200),
-//   new Ships('Hermes',100),
-//   new Ships('Apollo', 100),
-//   new Ships('Hercules', 50),
-//   new Ships('Zeus', 50),
-// ]);
-
-// const fleet2 = new Fleet([
-//   new Ships('Osiris', 2000),
-//   new Ships('Isis', 2000),
-//   new Ships('Horus', 1000),
-//   new Ships('Set', 1000),
-//   new Ships('Geb', 1000),
-//   new Ships('Bastet', 500),
-//   new Ships('Nut', 200),
-//   new Ships('Sekhmet', 100),
-//   new Ships('Anubis', 100),
-//   new Ships('Nephthys', 50),
-//   new Ships('Amun-Ra', 50),
-// ]);
-
-const fleet1 = new Fleet([
-  new Ships('Artemis', 4000),
-  new Ships('Perseus', 2000),
-  new Ships('Hera', 2000),
-  new Ships('Demeter', 1000),
-  new Ships('Vulcan', 1000),
-  new Ships('Ares', 1000),
-  new Ships('Bastet', 1000),
-  new Ships('Sekhmet', 200),
-  new Ships('Amun-Ra', 100),
+const humanFleet = new Fleet([
+  new Fighters('Artemis', 2000),
+  new Fighters('Perseus', 1000),
+  new Fighters('Hera', 1000),
+  new Fighters('Demeter', 500),
+  new Fighters('Vulcan', 500),
+  new Fighters('Ares', 500),
+  new Fighters('Thanatos', 200),
+  // new Extractors('Neptune',200),
+  new Fighters('Hermes', 100),
+  new Fighters('Apollo', 100),
+  new Fighters('Hercules', 50),
+  new Fighters('Zeus', 50),
 ]);
 
-const fleet2 = new Fleet([
-  new Ships('Artemis', 2000),
-  new Ships('Perseus', 1000),
-  new Ships('Hera', 1000),
-  new Ships('Demeter', 500),
-  new Ships('Vulcan', 500),
-  new Ships('Ares', 500),
-  new Ships('Bastet', 500),
-  new Ships('Sekhmet', 100),
-  new Ships('Amun-Ra', 50),
+const daharanFleet = new Fleet([
+  new Fighters('Osiris', 5000),
+  new Fighters('Isis', 1000),
+  new Fighters('Horus', 500),
+  new Fighters('Set', 500),
+  new Fighters('Geb', 500),
+  new Fighters('Bastet', 250),
+  new Fighters('Nut', 100),
+  new Fighters('Sekhmet', 50),
+  new Fighters('Anubis', 50),
+  // new Extractors('Thoth',50),
+  new Fighters('Nephthys', 50),
+  new Fighters('Amun-Ra', 25),
 ]);
 
-const defenses = [
-  new Defenses('Laser Cannon', 2000),
-  new Defenses('Inferno Tower', 1000),
-  new Defenses('Eagle Artillery', 500),
-  new Defenses('Phaser', 200),
-  new Defenses('Doctor', 100),
-  new Defenses('Death Star', 50)
-];
+const extractorFleet1 = new Fleet([new Extractors('Neptune', 300)]);
+const extractorFleet2 = new Fleet([new Extractors('Neptune', 300)]);
 
-const baseDefense = new BaseDefense(defenses);
-const galaxy = new Galaxy(baseDefense);
-const combat = new Combat([fleet1], [fleet2], galaxy);
+// const baseDefense = new BaseDefense([
+//   new Defenses('Laser Cannon', 2000),
+//   new Defenses('Inferno Tower', 1000),
+//   new Defenses('Eagle Artillery', 500),
+//   new Defenses('Phaser', 200),
+//   new Defenses('Doctor', 100),
+//   new Defenses('Death Star', 50),
+// ]);
 
-combat.execute();
-combat.execute();
+const galaxy = new Galaxy([400, 400, 400]);
+
+const combat = new Combat([humanFleet, extractorFleet1, extractorFleet2], [daharanFleet], galaxy);
+
+combat.advance();
 
 console.dir(combat.logs, { depth: null });
-
