@@ -3,8 +3,8 @@ import { Base, Roids } from '../../types';
 
 class Galaxy implements Base {
   constructor(
-    private _roids: Roids = [0, 0, 0],
-    readonly defense: BaseDefense = new BaseDefense()
+    readonly defense: BaseDefense = new BaseDefense(),
+    private _roids: Roids = [0, 0, 0]
   ) {}
 
   public get roids(): Roids {

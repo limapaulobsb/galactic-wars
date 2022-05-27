@@ -20,10 +20,14 @@
   },
   "homepage": "https://github.com/limapaulobsb/galactic-wars#readme",
   "devDependencies": {
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
     "eslint": "^8.15.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.6.4"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
   }
 }

@@ -67,6 +67,7 @@ interface Group {
 }
 
 interface SuperGroup {
+  id: string;
   groups: GroupInfo[];
   damages: Damage[];
   fuselage: number;
@@ -84,8 +85,8 @@ interface Encounter {
   attackingGroups: GroupInfo[][];
   defendingGroups: GroupInfo[][];
   logs: CombatLog[];
-  // joinFleet(fleet: SuperGroup): void;
-  // withdrawFleet(id: string): void;
+  joinFleet(fleet: SuperGroup, side: 'attack' | 'defense' ): void;
+  withdrawFleet(id: string): void;
   advance(): void;
   resolve(): void;
 }

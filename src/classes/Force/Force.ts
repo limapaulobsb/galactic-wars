@@ -1,9 +1,18 @@
+import { v4 as uuidv4 } from 'uuid';
 import Units from '../Units';
 import { Damage, GroupInfo, SuperGroup } from '../../types';
 import { ceil, round } from '../../utils';
 
 abstract class Force implements SuperGroup {
-  constructor(protected _groups: Units[]) {}
+  private _id: string;
+
+  constructor(protected _groups: Units[]) {
+    this._id = uuidv4();
+  }
+
+  public get id() {
+    return this._id;
+  }
 
   public get groups(): GroupInfo[] {
     return this._groups.map(({ data: { name }, count }) => ({ name, count }));

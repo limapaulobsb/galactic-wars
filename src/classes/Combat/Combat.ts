@@ -15,7 +15,7 @@ class Combat implements Encounter {
     readonly _galaxy: Galaxy = new Galaxy()
   ) {
     this._attackingFleets = [...attackingFleets];
-    this._defendingForces = [...defendingFleets, this._galaxy.defense];
+    this._defendingForces = [this._galaxy.defense, ...defendingFleets];
     this.createLog();
   }
 
@@ -54,6 +54,20 @@ class Combat implements Encounter {
 
   public get logs(): CombatLog[] {
     return this._logs;
+  }
+
+  public joinFleet(fleet: Fleet, side: 'attack' | 'defense'): void {
+    if (side === 'attack') this._attackingFleets.push(fleet);
+    else this._defendingForces.push(fleet);
+  }
+
+  public withdrawFleet(id: string): void {
+    let index = this._attackingFleets.findIndex((fleet) => fleet.id === id);
+    if (index !== -1) this._attackingFleets.splice(index, 1);
+    else {
+      index = this._defendingForces.findIndex((fleet) => fleet.id === id);
+      if (index !== -1) this._defendingForces.splice(index, 1);
+    }
   }
 
   private executeCombat(): void {
