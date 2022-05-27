@@ -1,6 +1,7 @@
 import Force from './Force';
-import { Defenses, Extractors, Fighters } from '../Units';
+import Units, { Defenses, Extractors, Fighters } from '../Units';
 import { Roids } from '../../types';
+import { unitData } from '../../data';
 
 class Fleet extends Force {
   constructor(groups: (Fighters | Extractors)[]) {
@@ -36,8 +37,21 @@ class Fleet extends Force {
 
   public addUnits(name: string, count: number): void {
     const index = this._groups.findIndex(({ data }) => data.name === name);
-    if (index !== -1) this._groups[index].addUnits(count);
-    else this._groups.push(new Fighters(name, count));
+    if (index !== -1) {
+      this._groups[index].addUnits(count);
+    } else {
+      const data = unitData.find((unit) => unit.name === name);
+      let units: Units;
+      switch (data?.type) {
+        case 'Extractor':
+          units = new Extractors(name, count);
+          break;
+        default:
+          units = new Fighters(name, count);
+          break;
+      }
+      this._groups.push(units);
+    }
   }
 
   public extract(roids: Roids): Roids {

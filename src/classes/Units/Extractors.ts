@@ -1,14 +1,14 @@
 import Units from './Units';
 import { Damage, Roids } from '../../types';
 import { ceil, randomInt, referenceValues, round } from '../../utils';
-import shipData from '../../data/shipData';
+import { unitData } from '../../data';
 
 class Extractors extends Units {
   private _roids: Roids = [0, 0, 0];
   readonly storageCapacity: number;
 
   constructor(name: string, count: number) {
-    const data = shipData.find((ship) => ship.name === name && ship.type === 'Extractor');
+    const data = unitData.find((unit) => unit.name === name && unit.type === 'Extractor');
     if (!data) throw new Error('Invalid extractor name for class constructor');
     super(data, count);
     this.storageCapacity = data.storageCapacity || 0;

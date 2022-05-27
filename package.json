@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "balance": "ts-node src/balanceCheck.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tests": "ts-node src/tests.ts",
+    "balance": "ts-node src/balanceCheck.ts"
   },
   "repository": {
     "type": "git",

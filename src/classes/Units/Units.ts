@@ -69,7 +69,9 @@ abstract class Units implements Group {
     return affected;
   }
 
-  public abstract receiveDamage(damage: Damage): void;
+  public receiveDamage(damage: Damage): void {
+    this.applyDamage(damage);
+  }
 }
 
 export default Units;
